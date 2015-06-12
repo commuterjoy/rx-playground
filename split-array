@@ -1,0 +1,12 @@
+
+var Rx = require('rx');
+
+Rx.Observable.interval(500)
+            	.map(function(v) {
+					return Rx.Observable
+								.from([1,2,3])
+								.subscribe(function (a) {
+									console.log('next', a);
+								});
+				})
+              	.subscribe(console.log.bind(console));
