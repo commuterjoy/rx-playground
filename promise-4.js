@@ -30,7 +30,7 @@ var enrichmentStream = sqsStream
 				new Promise(function(resolve, reject) { // a response from Session API
 					setTimeout(function () { 
 						resolve(2);	
-					}, Math.random() * 3000);
+					}, Math.random() * 3000);	// proves the messages don't have to arrive in order
 				}),
 				Promise.resolve(data)	// not sure how to return the original data other than this
 			])
