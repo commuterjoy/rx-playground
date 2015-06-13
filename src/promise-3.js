@@ -9,13 +9,14 @@ require('es6-promise').polyfill();
 // -------- Simulated SQS stream
 
 var sqsStream = new Rx.Subject();
-
+var c = 0;
 setInterval(() => {
 	console.log('SQS generated an event');
 	sqsStream.onNext(JSON.stringify({
-		session: randomstring.generate()
+		session: randomstring.generate(),
+		c: c++
 	}));
-}, 500);
+}, 100);
 
 
 // -------- Enrichment pipeline 
@@ -25,7 +26,7 @@ var subscribe = stream => {
 	var enrichmentStream = stream
 		.map(transforms.toJson)			// -- 1. Transform the data in to a nice format
 		.map(data => {
-			if (Math.random() < 0.5) throw new Error('something pretty bad happened. shut down, exploded');
+			if (Math.random() < 0.1) throw new Error('something pretty bad happened. shut down, exploded');
 			return data;
 		})
 		.flatMap(data => {		// -- 2. Example async operation
@@ -35,7 +36,13 @@ var subscribe = stream => {
 						resolve(1);
 					}), 
 					new Promise((resolve, reject) => { // a response from Session API
-						resolve(2);	// TODO - randomly delay and fail this
+						setTimeout(() => { 
+							if (Math.random() < 0.1) {
+								reject('rejection :(');
+							} else {
+								resolve(2);	
+							}
+						}, Math.random() * 3000);	// proves the messages don't have to arrive in order
 					}),
 					Promise.resolve(data)	// not sure how to return the original data other than this
 				])
