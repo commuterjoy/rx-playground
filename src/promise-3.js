@@ -37,12 +37,8 @@ var subscribe = stream => {
 					}), 
 					new Promise((resolve, reject) => { // a response from Session API
 						setTimeout(() => { 
-							if (Math.random() < 0.1) {
-								reject('rejection :(');
-							} else {
-								resolve(2);	
-							}
-						}, Math.random() * 3000);	// proves the messages don't have to arrive in order
+							resolve(2);	
+						}, Math.random() * 1000);	// proves the messages don't have to arrive in order
 					}),
 					Promise.resolve(data)	// not sure how to return the original data other than this
 				])

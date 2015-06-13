@@ -1,3 +1,3 @@
 
 run:
-	@gulp compile; node dist/promise-3.js
+	@gulp compile; node dist/promise-5.js
