@@ -1,4 +1,4 @@
-// `npm install rx randomstring es6-promise`
+// `npm install rx randomstring es6-promise gulp babel gulp-babel` ; make run 
 
 var Rx				= require('rx');
 var randomstring	= require("randomstring");
